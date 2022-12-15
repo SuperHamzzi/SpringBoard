@@ -1,0 +1,10 @@
+
+12월 15, 2022 17:32:43.58 NEW SESSION
+12월 15, 2022 17:32:43.59 [42120:44576:1215/173243.056:ERROR:device_event_log_impl.cc(215)] [17:32:43.056] USB: usb_service_win.cc:415 Could not read device interface GUIDs: ������ ������ ã�� �� �����ϴ�. (0x2)
+12월 15, 2022 17:32:43.59 [42120:44576:1215/173243.058:ERROR:device_event_log_impl.cc(215)] [17:32:43.057] USB: usb_device_handle_win.cc:1045 Failed to read descriptor from node connection: �ý��ۿ� ������ ��ġ�� �۵����� �ʽ��ϴ�. (0x1F)
+12월 15, 2022 17:33:41.54 [42120:36160:1215/173341.054:ERROR:util.cc(133)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+12월 15, 2022 22:27:18.648 [42120:44576:1215/222718.647:ERROR:device_event_log_impl.cc(215)] [22:27:18.646] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: ��Ұ� �����ϴ�. (0x490)
+12월 15, 2022 22:33:41.76 [42120:37356:1215/223341.075:ERROR:util.cc(133)] Can't create base directory: C:\Program Files\Google\GoogleUpdater
+12월 15, 2022 23:06:08.585 [42120:44576:1215/230608.584:ERROR:device_event_log_impl.cc(215)] [23:06:08.584] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: ��Ұ� �����ϴ�. (0x490)
+12월 15, 2022 23:06:08.594 [42120:44576:1215/230608.593:ERROR:device_event_log_impl.cc(215)] [23:06:08.592] USB: usb_service_win.cc:307 SetupDiEnumDeviceInterfaces: ��� ������ �����Ͱ� �����ϴ�. (0x103)
+12월 16, 2022 24:18:06.360 [42120:44576:1216/001806.359:ERROR:device_event_log_impl.cc(215)] [00:18:06.356] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: ��Ұ� �����ϴ�. (0x490)
