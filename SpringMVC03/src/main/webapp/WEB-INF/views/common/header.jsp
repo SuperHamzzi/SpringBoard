@@ -28,7 +28,7 @@
       <c:if test="${!empty mvo}">
       <ul class="nav navbar-nav navbar-right">
             <li><a href="${contextPath}/memUpdateForm.do">회원정보수정</a></li>
-            <li><a href="#">프로필사진등록</a></li>
+            <li><a href="${contextPath}/memImageForm.do">프로필사진등록</a></li>
             <li><a href="${contextPath}/memLogout.do">로그아웃</a></li>
       </ul>
       </c:if>

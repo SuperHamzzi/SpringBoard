@@ -26,7 +26,7 @@
 <div class="container">
 <jsp:include page="common/header.jsp"/>
   <c:if test="${empty mvo}">
-  	<h3>[사진]${mvo.memName}님 방문을 환영합니다.</h3>
+  	<h3>${mvo.memName}님 방문을 환영합니다.</h3>
   </c:if>
     <div class="panel panel-default">
     <div >

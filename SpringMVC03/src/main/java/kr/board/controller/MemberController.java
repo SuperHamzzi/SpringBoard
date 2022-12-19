@@ -1,5 +1,8 @@
 package kr.board.controller;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.board.entity.Member;
 import kr.board.mapper.MemberMapper;
@@ -140,7 +146,34 @@ public class MemberController {
 			return "redirect:/memJoin.do";
 		}
 		
-		
-		return"";
 	}
+	@RequestMapping("/memImageForm.do")
+	public String memImageForm() {
+		return "member/memImageForm";
+	}
+	//회원 사진 이미지 업로드(upload, DB저장)
+	@RequestMapping("/memImageUpdate.do")
+	public String memImageUpdate(HttpServletRequest request , RedirectAttributes rttr) {
+		//파일업로드 API
+		MultipartRequest multi =null;
+		int fileMaxSize=10*1024&1024; // 10MB
+		String savePath=request.getRealPath("resources/upload");
+		try {
+			// 이미지 업로드
+			multi=new MultipartRequest(request, savePath, fileMaxSize,"UTF-8",new DefaultFileRenamePolicy());
+		} catch (Exception e) {
+			e.printStackTrace();
+			rttr.addFlashAttribute("msgType", "실패 메시지");
+			rttr.addFlashAttribute("msg", "파일의 크기는 10MB를 넘을 수 없습니다.");
+			return"redirect:/memImageForm.do";
+		}
+		//데이터베이스 테이블에 회원이미지를 업로드
+		String memID= request.getParameter("memID");
+		String fileName="";
+		File file=multi.getFile("memProfile");
+		 
+		return "";
+	}
+	
 }
+
