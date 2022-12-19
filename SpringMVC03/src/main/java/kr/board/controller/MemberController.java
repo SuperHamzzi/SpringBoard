@@ -82,17 +82,65 @@ public class MemberController {
 		if(m.getMemID()==null || m.getMemID().equals("")||
 				m.getMemPassword()==null || m.getMemPassword().equals("")) {
 			rttr.addFlashAttribute("msgType", "실패 메세지");
-			rttr.addFlashAttribute("nsg", "모든 내용을 입력해주세요.");
-			return "redirect://memLoginForm.do";
+			rttr.addFlashAttribute("msg", "모든 내용을 입력해주세요.");
+			return "redirect:/memLoginForm.do";
 			
 		}
 		Member mvo= memberMapper.memLogin(m);
 		if(mvo!=null) { //로그인에 성공
-			
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "로그인에 성공했습니다.");
+			session.setAttribute("mvo", mvo); //${!empty mvo}
+			return "redirect:/"; //메인
 		}else {
-			
+
+			rttr.addFlashAttribute("msgType", "실패 메세지");
+			rttr.addFlashAttribute("msg", "로그인에 실패했습니다.");
+
+			return "redirect:/memLoginForm.do";
 		}
+	}
+	//회원 정보수정화면
+	@RequestMapping("/memUpdateForm.do")
+	public String memUpdateForm() {
+		return "member/memUpdateForm";
+	}
+	// 회원정보 수정
+	@RequestMapping("/memUpdate.do")
+	public String memUpdate(Member m, RedirectAttributes rttr, String memPassword1,String memPassword2 ,HttpSession session) {
+		if(m.getMemID()==null || m.getMemID().equals("") ||
+				memPassword1==null || memPassword1.equals("")||
+				memPassword2==null || memPassword2.equals("")||
+				m.getMemName()==null || m.getMemName().equals("") ||
+				m.getMemAge()==0 ||
+				m.getMemGender()==null || m.getMemGender().equals("") ||
+				m.getMemEmail()==null || m.getMemEmail().equals("")) {
+			//누락메세지를 가지고 가기? =>객체바인딩 불가
+				rttr.addFlashAttribute("msgType", "실패 메시지");
+				rttr.addFlashAttribute("msg", "모든 내용을 입력하세요.");
+				return "redirect:/memUpdateForm.do"; // ${msgType), ${}
+		}
+		if(!memPassword1.equals(memPassword2)) {
+			rttr.addFlashAttribute("msgType", "실패 메시지");
+			rttr.addFlashAttribute("msg", "비밀번호가 서로 다릅니다.");
+			return "redirect:/memUpdateForm.do"; // ${msgType), ${}
+		}
+		m.setMemProfile(""); //사진이미지는 없다는 의미
+		// 회원을 테이블에 저장하기
+		int result = memberMapper.memUpdate(m);
+		if(result ==1 ) {// 회원가입 성공 메세지
+			rttr.addFlashAttribute("msgType", "성공 메시지");
+			rttr.addFlashAttribute("msg", "회원정보수정에 성공했습니다.");
+			//회원수정이 성공하면=>로그인 처리하기
+			session.setAttribute("mvo", m); 
+			return "redirect:/";
+		}else {
+			rttr.addFlashAttribute("msgType", "실패 메시지");
+			rttr.addFlashAttribute("msg", "회원정보 수정에 실패했습니다.");
+			return "redirect:/memJoin.do";
+		}
+		
+		
 		return"";
 	}
-	
 }
