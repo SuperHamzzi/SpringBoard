@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <libraryInfos>
-    <libraryInfo home="C:\eGovFrame-4.0.0\bin\jdk8u242-b08\bin" version="1.8.0_242">
+    <libraryInfo home="C:\eGovFrame-4.0.0\bin\jdk8u242-b08" version="1.8.0_242">
         <bootpath>
             <entry path="C:\eGovFrame-4.0.0\bin\jdk8u242-b08\jre\lib\resources.jar"/>
             <entry path="C:\eGovFrame-4.0.0\bin\jdk8u242-b08\jre\lib\rt.jar"/>
