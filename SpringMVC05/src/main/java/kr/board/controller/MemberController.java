@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import kr.board.entity.AutoVO;
+import kr.board.entity.AuthVO;
 import kr.board.entity.Member;
 import kr.board.mapper.MemberMapper;
 
@@ -29,7 +29,8 @@ public class MemberController {
 	@Autowired
 	MemberMapper memberMapper;
 	
-	@Autowired
+	//추가
+	@Autowired 
 	PasswordEncoder pwEncoder;
 	
 	@RequestMapping("/memJoin.do")
@@ -53,7 +54,7 @@ public class MemberController {
 		   memPassword1==null || memPassword1.equals("") ||
 		   memPassword2==null || memPassword2.equals("") ||
 		   m.getMemName()==null || m.getMemName().equals("") ||	
-		   m.getMemAge()==0 ||
+		   m.getMemAge()==0 || m.getAuthList().size()==0 ||
 		   m.getMemGender()==null || m.getMemGender().equals("") ||
 		   m.getMemEmail()==null || m.getMemEmail().equals("")) {
 		   // 누락메세지를 가지고 가기? =>객체바인딩(Model, HttpServletRequest, HttpSession)
@@ -68,26 +69,29 @@ public class MemberController {
 		}		
 		m.setMemProfile(""); // 사진이미는 없다는 의미 ""
 		// 회원을 테이블에 저장하기
-		// 비밀번호를 암호화 하기(API)
-		String encyptPw = pwEncoder.encode(m.getMemPassword());
-		m.setMemPassword(encyptPw);
-		// register() 수정
+		// 추가 : 비밀번호를 암호화 하기(API)
+	    String encyptPw=pwEncoder.encode(m.getMemPassword());
+	    m.setMemPassword(encyptPw);
+	    // register() 수정
 		int result=memberMapper.register(m);
 		if(result==1) { // 회원가입 성공 메세지
-			// 추가 : 권한테이블에 회원의 권한을 저장하기
-			List<AutoVO> list = m.getAuthList();
-			for(AutoVO autoVO: list) {
-				if(autoVO.getAuth()!=null) {
-					AutoVO saveVO = new AutoVO();
-					saveVO.setMemID(m.getMemID()); //회원아이디
-					saveVO.setAuth(autoVO.getAuth()); //회원의 권한
-					memberMapper.authInsert(saveVO);
-				}
-			}
+		   // 추가 : 권한테이블에 회원의 권한을 저장하기
+		   List<AuthVO> list=m.getAuthList();	
+		   for(AuthVO authVO : list) {
+			   if(authVO.getAuth()!=null) {
+				   AuthVO saveVO=new AuthVO();
+				   saveVO.setMemID(m.getMemID()); //회원아이디
+				   saveVO.setAuth(authVO.getAuth()); //회원의권한
+				   memberMapper.authInsert(saveVO);
+			   }
+		   }
 		   rttr.addFlashAttribute("msgType", "성공 메세지");
 		   rttr.addFlashAttribute("msg", "회원가입에 성공했습니다.");
 		   // 회원가입이 성공하면=>로그인처리하기
-		   session.setAttribute("mvo", m); // ${!empty mvo}
+		   // getMember()->회원정보+권한정보
+		   Member mvo=memberMapper.getMember(m.getMemID());
+		   System.out.println(mvo);
+		   session.setAttribute("mvo", mvo); // ${!empty mvo}
 		   return "redirect:/";
 		}else {
 		   rttr.addFlashAttribute("msgType", "실패 메세지");
@@ -116,7 +120,8 @@ public class MemberController {
 		   return "redirect:/memLoginForm.do";			
 		}
 		Member mvo=memberMapper.memLogin(m);
-		if(mvo!=null) { // 로그인에 성공
+		// 추가 : 비밀번호 일치여부 체크
+		if(mvo!=null && pwEncoder.matches(m.getMemPassword(), mvo.getMemPassword())) { // 로그인에 성공
 		   rttr.addFlashAttribute("msgType", "성공 메세지");
 		   rttr.addFlashAttribute("msg", "로그인에 성공했습니다.");
 		   session.setAttribute("mvo", mvo); // ${!empty mvo}
@@ -154,12 +159,29 @@ public class MemberController {
 		   return "redirect:/memUpdateForm.do";  // ${msgType} , ${msg}
 		}		
 		// 회원을 수정저장하기
+		// 추가 : 비밀번호 암호화
+		String encyptPw=pwEncoder.encode(m.getMemPassword());
+		m.setMemPassword(encyptPw);
 		int result=memberMapper.memUpdate(m);
 		if(result==1) { // 수정성공 메세지
+		   // 기존권한을 삭제하고
+		   memberMapper.authDelete(m.getMemID());
+			
+   		   // 새로운 권한을 추가하기	
+		   List<AuthVO> list=m.getAuthList();			
+		   for(AuthVO authVO : list) { 
+				  if(authVO.getAuth()!=null) { 
+						  AuthVO saveVO=new AuthVO();
+				          saveVO.setMemID(m.getMemID()); 
+				          saveVO.setAuth(authVO.getAuth());
+				          memberMapper.authInsert(saveVO); 
+			      } 
+           }
 		   rttr.addFlashAttribute("msgType", "성공 메세지");
 		   rttr.addFlashAttribute("msg", "회원정보 수정에 성공했습니다.");
 		   // 회원수정이 성공하면=>로그인처리하기
-		   session.setAttribute("mvo", m); // ${!empty mvo}
+		   Member mvo=memberMapper.getMember(m.getMemID());
+		   session.setAttribute("mvo", mvo); // ${!empty mvo}
 		   return "redirect:/";
 		}else {
 		   rttr.addFlashAttribute("msgType", "실패 메세지");

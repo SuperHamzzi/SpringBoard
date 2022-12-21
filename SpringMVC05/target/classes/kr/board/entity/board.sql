@@ -9,17 +9,15 @@ create table myboard(
 	primary key(idx)
 );
 
-drop table myboard;
+drop table mem_auth;
+drop table mem_stbl;
 
 
-
-select * from myboard order by idx desc;
-
--- 회원 테이블 --
+-- 스프링 Security(회원테이블) --
 create table mem_stbl(
   memIdx int not null, 
   memID varchar(20) not null,  
-  memPassword varchar(70) not null,
+  memPassword varchar(68) not null,
   memName varchar(20) not null,
   memAge int,
   memGender varchar(20),
@@ -28,21 +26,13 @@ create table mem_stbl(
   primary key(memID)
 );
 
-drop table mem_stbl;
-drop table mem_auth;
-
-
 create table mem_auth(
-	no int not null auto_increment,
-	memID varchar(50) not null,
-	auth varchar(50) not null,
-	primary key(no),
-	constraint fk_member_auth foreign key(memID) references mem_stbl(memID)
+  no int not null auto_increment,
+  memID varchar(50) not null,
+  auth varchar(50) not null,
+  primary key(no),
+  constraint fk_member_auth foreign key(memID) references mem_stbl(memID)
 );
 
 select * from mem_stbl;
 select * from mem_auth;
-
-delete from mem_tbl;
-
-select * from mem_tbl;

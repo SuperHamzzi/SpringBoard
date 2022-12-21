@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
-import kr.board.entity.AutoVO;
+import kr.board.entity.AuthVO;
 import kr.board.entity.Board;
 import kr.board.entity.Member;
 
@@ -18,5 +18,6 @@ public interface MemberMapper {
 	public int memUpdate(Member mvo); // 수정하기
 	public Member getMember(String memID);
 	public void memProfileUpdate(Member mvo);
-	public void authInsert(AutoVO saveVO);
+	public void authInsert(AuthVO saveVO);
+	public void authDelete(String memID);
 }

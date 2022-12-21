@@ -23,7 +23,7 @@
 <body>
 <div class="container">
   <jsp:include page="../common/header.jsp"/> 
-  <h2>Spring MVC03</h2>
+  <h2>Spring MVC05</h2>
   <div class="panel panel-default">
     <div class="panel-heading">로그인화면</div>
     <div class="panel-body">
@@ -42,8 +42,9 @@
                 <input type="submit" class="btn btn-primary btn-sm pull-right" value="로그인"/>
              </td>             
            </tr>
-         </table>
-         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+         </table> 
+         <input type="hidden" name="${_csrf.parameterName}"
+                              value="${_csrf.token}"/>   
       </form> 
     </div>
    	<!-- 실패 메세지를 출력(modal) -->
