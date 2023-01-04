@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="makeView"/>
+		<item key="selection" value="jpa"/>
 		<list key="findhistory">
+			<item value="jpa"/>
 			<item value="makeView"/>
 			<item value="make"/>
 			<item value="/Users/EGOVEDU/eGovFrame-3.10.0/"/>
