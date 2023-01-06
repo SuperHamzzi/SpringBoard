@@ -84,7 +84,7 @@
           <input type="hidden" name="keyword" value="<c:out value='${cri.keyword}'/>"/>
       </form>
     </div>
-    <div class="panel-footer">다중게시판</div>
+    <div class="panel-footer">스프2탄(답변형 게시판 만들기)</div>
   </div>
 </div>
 

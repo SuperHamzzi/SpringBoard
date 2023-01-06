@@ -23,7 +23,7 @@
     <div class="panel-body">
       
     </div>
-    <div class="panel-footer">다중게시판</div>
+    <div class="panel-footer">스프2탄(답변형 게시판 만들기)</div>
   </div>
 </div>
 
