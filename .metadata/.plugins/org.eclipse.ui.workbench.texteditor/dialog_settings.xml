@@ -6,8 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="jpa"/>
+		<item key="selection" value="regBtn"/>
 		<list key="findhistory">
+			<item value="regBtn"/>
+			<item value="Search"/>
+			<item value="saerch"/>
+			<item value="search"/>
 			<item value="jpa"/>
 			<item value="makeView"/>
 			<item value="make"/>

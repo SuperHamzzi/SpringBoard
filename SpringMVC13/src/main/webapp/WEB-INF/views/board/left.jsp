@@ -43,9 +43,10 @@
 				<div class="input-group mb-3">
 					<input type="text" class="form-control" placeholder="Search" />
 					<div class="input-group-append">
-						<button type="button" class="btn btn-secondary">Go</button>
+						<button type="button" class="btn btn-secondary" id="mapBtn">Go</button>
 					</div>
 				</div>
+				<div id="map" style="width:100%;height:150px;"></div>
 			</div>
 		</div>
 	</div>

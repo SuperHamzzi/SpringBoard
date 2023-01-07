@@ -13,7 +13,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="${cpath}/resources/css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	703e4b6d15ad15ee8ca089be5469655f"></script>
   
    <script type="text/javascript">
      $(document).ready(function(){
@@ -41,8 +45,55 @@
     		pageFrm.attr("method","get");
     		pageFrm.submit();
     	});
+    	${"#search"}.click(function(){
+    		var bookname = $("#bookname").val();
+    		if(bookname==""){
+    			alert("책 제목을 입력하세요");
+    			return false;
+    		}
     	
-     });
+    		// Kakao 책 검색 openAPI를 연결하기(키를 등록)
+    		// URL : https://dapi.kakao.com/v3/search/book?target=title
+    		// header : "Authorization: KakaoAK 319e643c73360c2cc583186d20c16412
+    		$.ajax({
+    			url : "https://dapi.kakao.com/v3/search/book?target=title",
+    			headers : {"Authorization" : "KakaoAK 319e643c73360c2cc583186d20c16412"},
+    			type : "get",
+    			data: {"query" : bookname},
+    			dataType : "json" ,
+    			success : bookPrint,
+    			error : function(){
+ 					alert("error");}
+    			});
+    		$(document).ajaxStart(function(){$(".loading-progress").show();});
+    		$(document).ajaxStop(function(){".loading-progress").hide();});
+    		
+    		
+    		
+    	});
+     	//input box에 책 제목이 입력되면 자동으로 검색을 하는 기능
+     	$("#bookname").autocomplete({
+     		source : function(){
+     			var bookname = $("#bookname").val();
+     			$.ajax({
+        			url : "https://dapi.kakao.com/v3/search/book?target=title",
+        			headers : {"Authorization" : "KakaoAK 319e643c73360c2cc583186d20c16412"},
+        			type : "get",
+        			data: {"query" : bookname},
+        			dataType : "json" ,
+        			success : bookPrint,
+        			error : function(){
+     					alert("error");}
+        			});
+     		},
+     		minLength : 1
+     		
+     	});
+     	//지도 mapBtn 클릭시 지도가 보이도록 하기
+     	$("#mapBtn").click(function(){
+     		mapView();
+     	});
+     });	
      function checkModal(result){
     	 if(result==''){
     		 return;
@@ -55,6 +106,49 @@
      }
      function goMsg(){
     	 alert("삭제된 게시물입니다."); // Modal창
+     }
+     function bookPrint(data){
+    	 var bList="<table class='table table-hover'>"
+    	 bList +="<thead>";
+    	 bList +="<tr>";
+    	 bList +="<th>책이미지</th>";
+    	 bList +="<th>책가격</th>";
+    	 bList +="</tr>";
+    	 bList +="</thead>";
+    	 bList +="<tbody>";
+    	$.each(data.documents,function(index, obj){
+    		var images=obj.thumbnail;
+    		var price=obj.price;
+    		var url=obj.url;
+    		bList +="<tr>";
+       	 bList +="<td><a href='"+url+"'><img src='"+ images+"'width='50px' height='60px'/></a></td>";
+       	 bList +="<td>"+price+"</td>";
+       	 bList +="</tr>";
+    	});
+    	bList +="</tbody>";
+    	bList +="</table>";
+    	 $("#bookList").html(bList);
+    	 
+     }
+     function mapView(){
+    	 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    	    mapOption = { 
+    	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+    	        level: 3 // 지도의 확대 레벨
+    	    };
+    	// 마커가 표시될 위치입니다 
+    	 var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667); 
+
+    	 // 마커를 생성합니다
+    	 var marker = new kakao.maps.Marker({
+    	     position: markerPosition
+    	 });
+
+    	 // 마커가 지도 위에 표시되도록 설정합니다
+    	 marker.setMap(map);
+
+    	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    	var map = new kakao.maps.Map(mapContainer, mapOption); 
      }
   </script>
 </head>
@@ -91,7 +185,8 @@
             <c:if test="${vo.boardLevel>0}">
               <c:forEach begin="1" end="${vo.boardLevel}">
                  <span style="padding-left: 10px"></span>
-              </c:forEach>            
+              </c:forEach>   
+              <i class="bi bi-arrow-return-right"></i>
             </c:if>
             <c:if test="${vo.boardLevel>0}">
               <c:if test="${vo.boardAvailable==1}">
@@ -118,7 +213,7 @@
         <c:if test="${!empty mvo}"> 
         <tr>
           <td colspan="5">
-            <button id="regBtn" class="btn btn-sm btn-primary pull-right">글쓰기</button>            
+            <button id="regBtn" class="btn btn-sm btn-secondary pull-right">글쓰기</button>            
           </td>
         </tr>
         </c:if>
@@ -176,8 +271,9 @@
 		    <!-- Modal content-->
 		    <div class="modal-content">
 		      <div class="modal-header">
+		      	
+		        <h4 class="modal-title">MESSAGE</h4>
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Modal Header</h4>
 		      </div>
 		      <div class="modal-body">		      		       
 		      </div>
