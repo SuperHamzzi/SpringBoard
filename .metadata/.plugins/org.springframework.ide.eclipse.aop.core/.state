@@ -2,12 +2,13 @@
 <aop-reference-model>
 <aop-project name="SpringMVC11"/>
 <aop-project name="SpringMVC08"/>
-<aop-project name="SpringMVC12"/>
-<aop-project name="SpringMVC01"/>
 <aop-project name="SpringMVC09"/>
+<aop-project name="SpringMVC01"/>
+<aop-project name="SpringMVC12"/>
 <aop-project name="SpringMVC0"/>
 <aop-project name="SpringMVC06"/>
 <aop-project name="SpringMVC20"/>
+<aop-project name="SpringMVCC1"/>
 <aop-project name="SpringMVC07"/>
 <aop-project name="SpringMVC04"/>
 <aop-project name="SpringMVC05"/>
@@ -15,6 +16,5 @@
 <aop-project name="SpringMVC02"/>
 <aop-project name="SpringMVC13"/>
 <aop-project name="SpringMVC7"/>
-<aop-project name="SpringStart"/>
 <aop-project name="SpringMVC03"/>
 </aop-reference-model>
