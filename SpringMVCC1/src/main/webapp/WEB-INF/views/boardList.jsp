@@ -40,6 +40,7 @@
 			</c:forEach>
 			
 		</table>
+		
 	</div>
     <div class="panel-footer">복습</div>
   </div>

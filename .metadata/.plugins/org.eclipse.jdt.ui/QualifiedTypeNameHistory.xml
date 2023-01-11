@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javax.sql.DataSource"/>
-    <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="kr.ham.mapper.DataSourceTest"/>
     <fullyQualifiedTypeName name="kr.ham.mapper.BoardMapper"/>
     <fullyQualifiedTypeName name="kr.ham.entity.Board"/>
@@ -45,7 +43,6 @@
     <fullyQualifiedTypeName name="org.springframework.security.core.userdetails.UsernameNotFoundException"/>
     <fullyQualifiedTypeName name="kr.com.entity.CustomUser"/>
     <fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
-    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="org.springframework.security.crypto.factory.PasswordEncoderFactories"/>
     <fullyQualifiedTypeName name="org.springframework.security.web.SecurityFilterChain"/>
     <fullyQualifiedTypeName name="org.springframework.security.config.annotation.web.builders.HttpSecurity"/>
@@ -60,4 +57,7 @@
     <fullyQualifiedTypeName name="kr.board.entity.Board"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="kr.board.mapper.BoardMapper"/>
+    <fullyQualifiedTypeName name="org.apache.ibatis.annotations.Mapper"/>
 </qualifiedTypeNameHistroy>
