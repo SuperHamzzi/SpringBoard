@@ -64,5 +64,6 @@ delete from tblBoard;
 delete from tblBoard where idx=0;
 delete from tblBoard where idx=1;
 delete from tblBoard where idx=2;
+delete from tblBoard where idx=3;
 
 
