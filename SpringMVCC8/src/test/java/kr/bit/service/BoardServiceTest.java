@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import kr.bit.entity.Criteria;
 import kr.bit.mapper.BoardMapper;
 import kr.bit.mapper.BoardMapperTest;
 import lombok.extern.log4j.Log4j;
@@ -20,8 +21,10 @@ public class BoardServiceTest {
 	
 	@Test
 	public void testGetList() {
-		
-		service.getList().forEach(vo->log.info(vo));
+		Criteria cri =new Criteria();
+		cri.setPage(4);
+		cri.setPerPageNum(10);
+		service.getList(cri).forEach(vo->log.info(vo));
 	}
 	
 }

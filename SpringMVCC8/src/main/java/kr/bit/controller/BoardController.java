@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.bit.entity.Board;
+import kr.bit.entity.Criteria;
+import kr.bit.entity.PageMaker;
 import kr.bit.service.BoardService;
 
 @Controller
@@ -22,9 +24,14 @@ public class BoardController {
 	BoardService service;
 	
 	@GetMapping("/list")
-	public String getList(Model model) {
-		List<Board> list = service.getList();
+	public String getList(Criteria cri, Model model) {
+		List<Board> list = service.getList(cri);
 		model.addAttribute("list", list);
+		//페이징 처리에 필요한 부분
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.totalCount());
+		model.addAttribute("pageMaker", pageMaker);
 		return "board/list";
 	}
 	@GetMapping("/register")
