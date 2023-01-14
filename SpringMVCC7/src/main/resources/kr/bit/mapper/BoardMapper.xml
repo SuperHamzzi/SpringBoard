@@ -3,7 +3,7 @@
 <mapper namespace="kr.bit.mapper.BoardMapper">
 	
 	<select id="getList" resultType="kr.bit.entity.Board">
-		select * from tblBoard order by boardGroup desc
+		select * from tblBoard order by boardGroup desc, boardSequence asc
 	</select>
 	<insert id="insert" parameterType="kr.bit.entity.Board">
 		insert into tblBoard(idx,memID,title,content,writer,boardGroup,boardSequence,boardLevel,boardAvailable)
@@ -13,12 +13,39 @@
 	</insert>
 	
 	<insert id="insertSelectKey" parameterType="kr.bit.entity.Board">
-		<selectKey keyProperty="idx,boardGroup" resultType="kr.bit.entity.Board">
+		<selectKey keyProperty="idx,boardGroup" resultType="kr.bit.entity.Board" order="BEFORE">
 			select IFNULL(max(idx)+1,1) as idx,
 				   IFNULL(max(boardGroup)+1,0) as boardGroup
+			from tblBoard
 		</selectKey>
-		insert into tblBoard(idx,memID,title,content,writer,boardGroup,boardSequence,boardLevel,boardAvailable)
+		insert into tblBoard
+		(idx,memID,title,content,writer,boardGroup,boardSequence,boardLevel,boardAvailable)
 		values(#{idx},#{memID},#{title},#{content},#{writer},#{boardGroup},0,0,1)
-		from tblBoard
 	</insert>
+	<insert id="replyinsert" parameterType="kr.bit.entity.Board">
+		<selectKey keyProperty="idx" resultType="kr.bit.entity.Board" order="BEFORE">
+			select IFNULL(max(idx)+1,1) as idx
+			from tblBoard
+		</selectKey>
+		insert into tblBoard
+		(idx,memID,title,content,writer,boardGroup,boardSequence,boardLevel,boardAvailable)
+		values(#{idx},#{memID},#{title},#{content},#{writer},#{boardGroup},${boardSequence},${boardLevel},1)
+	</insert>
+	
+	<select id="login" resultType="kr.bit.entity.Member" parameterType="kr.bit.entity.Member">
+		select * from tblMember where memID=#{memID} and memPwd=#{memPwd}
+	</select>
+	<select id="read" resultType="kr.bit.entity.Board">
+	select * from tblBoard where idx=#{idx} 
+	</select>
+	<update id="update" parameterType="kr.bit.entity.Board">
+		update tblBoard set title=#{title},content=#{content} where idx=#{idx}
+	</update>
+	<update id="delete">
+		update tblBoard set boardAvailable=0 where idx=#{idx}
+	</update>
+	<update id="replySeqUpdate" parameterType="kr.bit.entity.Board">
+		update tblBoard set boardSequence=boardSequence+1
+		where boardGroup=#{boardGroup} and boardSequence > #{boardSequence}
+	</update>
 </mapper>
