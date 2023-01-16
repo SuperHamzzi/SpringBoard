@@ -114,21 +114,32 @@
     		</c:if>
     	</table>
     	<!--  페이징 처리 뷰 -->
-    <div class="pull-right">
+   <div style= "text-align: center">
     	<ul class="pagination">
     	<!-- 이전처리 -->
-    		
+    	<c:if test="${pageMaker.prev}">
+    		<li class="paginate_button previous">
+    			<a href="${cpath}/board/list?page=${pageMaker.startPage-1}">◀</a>
+    		</li>
+    	</c:if>
     	<!-- 페이지번호 처리 -->
     	  <c:forEach var="pageNum" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
 			<c:if test="${pageMaker.cri.page != pageNum}">
 			  <li><a href="${cpath}/board/list?page=${pageNum}">${pageNum}</a></li>
 			</c:if>
 			<c:if test="${pageMaker.cri.page == pageNum}">
-			  <li class="active"><a href="${cpath}/board/list?page=${pageNum}">${pageNum}</a></li>
+			  <li class="active">
+			  <a href="${cpath}/board/list?page=${pageNum}">${pageNum}</a>
+			  </li>
 			</c:if>
 		   </c:forEach>
 		
     	<!--  다음처리 -->
+    	<c:if test="${pageMaker.next}">
+    		<li class="paginate_button next">
+    			<a href="${cpath}/board/list?page=${pageMaker.endPage+1}">▶</a>
+    		</li>
+    	</c:if>
     	</ul>
     </div>
     	<!--  END  -->
