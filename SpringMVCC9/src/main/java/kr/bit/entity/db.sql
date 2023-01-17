@@ -49,11 +49,15 @@ create table tblMember(
 drop table tblMember;
 
 insert into tblMember(memID, memPwd, memName, memPhone)
-values('bit01','bit01','관리자','010-1111-1111');
+values('test1','test1','관리자','010-1111-1111');
 insert into tblMember(memID, memPwd, memName, memPhone)
-values('bit02','bit02','김재혁','010-2222-2222');
+values('test2','test2','김재혁','010-2222-2222');
 insert into tblMember(memID, memPwd, memName, memPhone)
-values('bit03','bit03','홍길동','010-3333-3333');
+values('test3','test3','홍길동','010-3333-3333');
+
+delete from tblMember where memID='bit01';
+delete from tblMember where memID='bit02';
+delete from tblMember where memID='bit03';
 
 select * from tblMember;
 

@@ -16,5 +16,5 @@ public interface BoardMapper {
 	public void delete(int idx);
 	public void replySeqUpdate(Board parent);
 	public void replyinsert(Board vo);
-	public int totalCount();
+	public int totalCount(Criteria cri);
 }

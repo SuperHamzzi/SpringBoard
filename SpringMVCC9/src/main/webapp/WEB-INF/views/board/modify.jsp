@@ -26,14 +26,16 @@
   				formData.find("#content").remove();
   				formData.find("#writer").remove();
   				formData.attr("action", "${cpath}/board/remove");
-  				formData.attr("method", "get");
+  				formData.attr("method", "get")
   			}else if(btn=='list'){
   				formData.find("#idx").remove();
   				formData.find("#title").remove();
   				formData.find("#content").remove();
   				formData.find("#writer").remove();
+  				formData.find("#title").remove();
+  				formData.find("#keyword").remove();
   				formData.attr("action", "${cpath}/board/list");
-  				formData.attr("method", "get");
+  				formData.attr("method", "get")
   			}
   			formData.submit();
   		});
@@ -81,7 +83,9 @@
     	</table>
     	
     		<input type="hidden" name="page" value="<c:out value='${cri.page}'/>"/>
-    		<input type="hidden" id="perPageNum" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+    		<input type="hidden" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+    		<input type="hidden"  name="type" value="<c:out value='${cri.type}'/>"/>
+    		<input type="hidden"  name="keyword" value="<c:out value='${cri.keyword}'/>"/>
     	</form>
     </div>
     <div class="panel-footer">답변형,페이징처리 공부</div>

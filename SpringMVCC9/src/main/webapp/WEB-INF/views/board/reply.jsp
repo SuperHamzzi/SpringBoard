@@ -47,7 +47,9 @@
     		<input type="hidden" name="page" value="<c:out value='${cri.page}'/>"/>
     		<input type="hidden" id="perPageNum" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
     	
-    	
+    		
+    		<input type="hidden" name="keyword" value="<c:out value='${cri.keyword}'/>"/>
+    		<input type="hidden" name="type" value="<c:out value='${cri.type}'/>"/>
      		<input type="hidden" name="idx" value="${vo.idx}"/>
     		<input type="hidden" name="memID" value="${mvo.memID}"/>
     		<div class="form-group">
@@ -68,6 +70,8 @@
     	</form>
     	<form id="frm1" method="get">
     		<input type="hidden" name="page" value="<c:out value='${cri.page}'/>"/>
+    		<input type="hidden" name="keyword" value="<c:out value='${cri.keyword}'/>"/>
+    		<input type="hidden" name="type" value="<c:out value='${cri.type}'/>"/>
     		<input type="hidden" id="perPageNum" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
     	</form>
     </div>

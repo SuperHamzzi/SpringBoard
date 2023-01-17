@@ -24,14 +24,14 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
-	@GetMapping("/list")
+	@RequestMapping("/list")
 	public String getList(Criteria cri, Model model) {
 		List<Board> list = service.getList(cri);
 		model.addAttribute("list", list);
 		//페이징 처리에 필요한 부분
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(service.totalCount());
+		pageMaker.setTotalCount(service.totalCount(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		return "board/list";
 	}
@@ -63,6 +63,8 @@ public class BoardController {
 		service.modify(vo); // 수정	
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";
 	}
 	@GetMapping("/remove")
@@ -70,6 +72,9 @@ public class BoardController {
 		service.remove(idx);
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";
 	}
 	@GetMapping("/reply")
@@ -85,6 +90,9 @@ public class BoardController {
 
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";
 	}
 }

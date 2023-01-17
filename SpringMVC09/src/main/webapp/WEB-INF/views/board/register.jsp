@@ -39,7 +39,7 @@
           <button type="reset" class="btn btn-default btn-sm">취소</button>
        </form>
     </div>
-    <div class="panel-footer">스프2탄(답변형 게시판 만들기)</div>
+    <div class="panel-footer">김재혁</div>
   </div>
  </div>
 </body>
