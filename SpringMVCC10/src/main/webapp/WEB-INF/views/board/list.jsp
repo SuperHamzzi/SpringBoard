@@ -11,9 +11,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="${cpath}/resources/css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"></script>
   <script type="text/javascript">
      $(document).ready(function(){
     	var result='${result}'; 
@@ -40,6 +42,26 @@
     		pageFrm.attr("method","get");
     		pageFrm.submit();
     	});
+    	// 책 검색 버튼이 클릭 되었을때 처리
+    	$("#search").click(function(){
+    		var bookname= $("#bookname").val();
+    		if(bookname==""){
+    			alert("책 제목을 입력하세요");
+    			return flase;
+    		}
+    			//kakao 책 검색 openAPI를 연동하기(키를 등록)
+    			// url : https://dapi.kakao.com/v3/search/book?target=title
+    		 	// -H : Authorization: KakaoAK 242a78656f2c16e18564c2b1a2d941c8
+    			$.ajax({
+    				url : "https://dapi.kakao.com/v3/search/book?target=title",
+    				headers : {"Authorization" : "KakaoAK 242a78656f2c16e18564c2b1a2d941c8" },	//헤더에 레스트 API키 넘겨줌
+    				type : "get",
+    				data : {"query" : bookname},
+    				dataType : "json",
+    				success : bookPrint,
+    				error : function(){ alert("error");}
+    			});
+    	});
     	
      });
      function checkModal(result){
@@ -54,6 +76,30 @@
      }
      function goMsg(){
     	 alert("삭제된 게시물입니다."); // Modal창
+     }
+     function bookPrint(data){
+    	 var bList="<table class='table table-hover'>";
+    	 bList+="<thead>";
+    	 bList+="<tr>";
+    	 bList+="<th>책이미지</th>";
+    	 bList+="<th>책가격</th>";
+    	 bList+="</tr>";
+    	 bList+="</thead>";
+    	 bList+="<tbody>";
+    	 
+    	 $.each(data.documents,function(index, obj){
+    		 var image=obj.thumbnail;
+    		 var price=obj.price;
+    		 var url=obj.url;
+        	 bList+="<tr>";
+        	 bList+="<td><a href='"+url+"'><img src='"+image+"' width ='50px' height='60px'/></a></td>";
+        	 bList+="<td>"+price+"</td>";
+        	 bList+="</tr>";
+    	 });
+    	 bList+="</tbody>";
+    	 bList+="</table>";
+    	 $("#bookList").html(bList);
+    	 
      }
   </script>
 </head>
@@ -91,7 +137,8 @@
             <c:if test="${vo.boardLevel>0}">
               <c:forEach begin="1" end="${vo.boardLevel}">
                  <span style="padding-left: 10px"></span>
-              </c:forEach>            
+              </c:forEach>
+              <i class="bi bi-arrow-return-right"></i>            
             </c:if>
             <c:if test="${vo.boardLevel>0}">
               <c:if test="${vo.boardAvailable==1}">
@@ -123,43 +170,44 @@
         </tr>
         </c:if>
       </table>
-      <!-- 검색메뉴 -->
-       <div style="text-align: center;">
-		<form class="form-inline" action="${cpath}/board/list" method="post">
-		  <div class="form-group">	
-		   <select name="type" class="form-control">
+      <form class="form-inline" action="${cpath}/board/list" method="post">
+      <div class="container">
+      <div class="input-group mb-3">
+	      <div class="input-group-append">
+			 <select name="type" class="form-control">
 		      <option value="writer" ${pageMaker.cri.type=='writer' ? 'selected' : ''}>이름</option>
 		      <option value="title" ${pageMaker.cri.type=='title' ? 'selected' : ''}>제목</option>
 		      <option value="content" ${pageMaker.cri.type=='content' ? 'selected' : ''}>내용</option>
-		   </select>
+		  	 </select>
+		 </div>
+		  <input type="text" class="form-control" name="keyword" value="${pageMaker.cri.keyword}">
+		  <div class="input-group-append">
+		    <button class="btn btn-success" type="submit">Search</button>
 		  </div>
-		  <div class="form-group">	
-		    <input type="text" class="form-control" name="keyword" value="${pageMaker.cri.keyword}">
-		  </div>
-		  <button type="submit" class="btn btn-success">검색</button>
-		</form>
-	   </div>
+	</div>
+	</div>
+	</form>
+      
+    
       <!-- 페이징 START -->
-      <div style="text-align: center">
-	    <ul class="pagination">
+	    <ul class="pagination  justify-content-center">
       <!-- 이전처리 -->
       <c:if test="${pageMaker.prev}">
-        <li class="paginate_button previous">
-          <a href="${pageMaker.startPage-1}">◀</a>
+        <li class="paginate_button previous page-item">
+          <a class="page-link" href="${pageMaker.startPage-1}">◀</a>
         </li>
       </c:if>      
       <!-- 페이지번호 처리 -->
           <c:forEach var="pageNum" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-	         <li class="paginate_button ${pageMaker.cri.page==pageNum ? 'active' : ''}"><a href="${pageNum}">${pageNum}</a></li>
+	         <li class="paginate_button ${pageMaker.cri.page==pageNum ? 'active' : ''}"><a class="page-link" href="${pageNum}">${pageNum}</a></li>
 		  </c:forEach>    
       <!-- 다음처리 -->
       <c:if test="${pageMaker.next}">
-        <li class="paginate_button next">
-          <a href="${pageMaker.endPage+1}">▶</a>
+        <li class="paginate_button next page-item">
+          <a class="page-link" href="${pageMaker.endPage+1}">▶</a>
         </li>
       </c:if> 
         </ul>
-      </div>
       <!-- END -->
       <form id="pageFrm" action="${cpath}/board/list" method="post">
          <!-- 게시물 번호(idx)추가 -->         
@@ -174,9 +222,11 @@
 		
 		    <!-- Modal content-->
 		    <div class="modal-content">
+		    
 		      <div class="modal-header">
+		       <h4 class="modal-title">MESSAGE</h4>
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Modal Header</h4>
+		       
 		      </div>
 		      <div class="modal-body">		      		       
 		      </div>

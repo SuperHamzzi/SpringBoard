@@ -9,9 +9,9 @@
 	<div class="row">
 	 <div class="col-lg-12">
 	 	<div class="card-body">
+	 		<c:if test="${empty mvo}">
 	 		<h4 class="card-title">GUEST</h4>
 	 		<p class="card-text">회원님 Welcome!</p>
-	 		<c:if test="${empty mvo}">
 	 		<form action="${cpath}/login/loginProcess" method="post">
 			 	 <div class="form-group">
 				    <label for="memID">아이디:</label>
