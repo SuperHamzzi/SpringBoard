@@ -65,6 +65,8 @@ C:\eGovFrame-4.0.0\workspace.edu\.metadata\.plugins\org.eclipse.jst.jsp.core\jsp
 \lab402-ux-component\src\main\java
 C:\eGovFrame-4.0.0\workspace.edu\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3290733446.index
 \SpringMVC04\src\main\java
+C:\eGovFrame-4.0.0\workspace.edu\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1333251369.index
+\MVC01\src\main\java
 C:\eGovFrame-4.0.0\workspace.edu\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3847399427.index
 \lab102-code-generation\src\main\java
 C:\eGovFrame-4.0.0\workspace.edu\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4244854798.index
